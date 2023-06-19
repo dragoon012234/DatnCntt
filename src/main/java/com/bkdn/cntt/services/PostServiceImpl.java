@@ -43,7 +43,12 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public ArrayList<Topic> getAllTopic(Integer theme) {
-		var es = topicRepo.findAllByTheme(theme);
+		ArrayList<TopicEntity> es = null;
+		if (theme != null) {
+			es = topicRepo.findAllByTheme(theme);
+		} else {
+			es = topicRepo.findAll();
+		}
 		ArrayList<Topic> ms = new ArrayList<Topic>(es.size());
 		for (var e : es) {
 			ms.add(new Topic(e));
