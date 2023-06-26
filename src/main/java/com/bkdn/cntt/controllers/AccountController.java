@@ -180,7 +180,6 @@ public class AccountController {
 	private ResponseEntity<ApiResponse> updateUser(Account user) {
 		try {
 			AccountEntity accountEntity = getAccount().getAccount();
-			user.configure(accountEntity);
 			user = accService.update(accountEntity.id, user);
 			return ResponseEntity.ok(new ApiResponse(true, user));
 		} catch (ErrorResponse e) {

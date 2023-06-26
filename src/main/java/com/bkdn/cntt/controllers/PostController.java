@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bkdn.cntt.configs.models.AccountModel;
 import com.bkdn.cntt.entities.AccountEntity;
 import com.bkdn.cntt.enums.PostType;
+import com.bkdn.cntt.enums.Role;
 import com.bkdn.cntt.models.Account;
 import com.bkdn.cntt.models.Post;
 import com.bkdn.cntt.models.Theme;
@@ -47,8 +48,7 @@ public class PostController {
 	}
 
 	@RequestMapping(path = "/theme/topic/all", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseEntity<ApiResponse> apiAllTopic(@RequestParam @Nullable Integer id,
-			@RequestBody @Nullable Theme m) {
+	public ResponseEntity<ApiResponse> apiAllTopic(@RequestParam @Nullable Integer id, @RequestBody @Nullable Theme m) {
 		if (m != null) {
 			return allTopic(m.id);
 		}
@@ -63,9 +63,25 @@ public class PostController {
 		}
 	}
 
+	@RequestMapping(path = "/theme/topic/update", method = { RequestMethod.POST })
+	@PreAuthorize(value = "hasAnyAuthority('STUDENT', 'LECTURER')")
+	public ResponseEntity<ApiResponse> apiUpdateTopic(@RequestBody Topic m) {
+		var e = getAccount().getAccount();
+		m.user = e.id;
+		return updateTopic(m, e.role != Role.Lecturer);
+	}
+
+	private ResponseEntity<ApiResponse> updateTopic(Topic m, Boolean check) {
+		try {
+			m = postService.update(m, check);
+			return ResponseEntity.ok(new ApiResponse(true, m));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new ApiResponse(false, e.getMessage()));
+		}
+	}
+
 	@RequestMapping(path = "/theme/topic/post", method = { RequestMethod.GET, RequestMethod.POST })
-	public ResponseEntity<ApiResponse> apiAllPost(@RequestParam @Nullable Integer id,
-			@RequestBody @Nullable Topic m) {
+	public ResponseEntity<ApiResponse> apiAllPost(@RequestParam @Nullable Integer id, @RequestBody @Nullable Topic m) {
 		if (m != null) {
 			return allPost(m.id);
 		}
@@ -156,14 +172,14 @@ public class PostController {
 	public ResponseEntity<ApiResponse> create(CreatePost m) {
 		try {
 			var t = postService.create(m.topic, m.post);
-			m.topic = t;
-			return ResponseEntity.ok(new ApiResponse(true, m));
+			return ResponseEntity.ok(new ApiResponse(true, t));
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new ApiResponse(false, e.getMessage()));
 		}
 	}
 
-	@RequestMapping(path = "/theme/topic/post/new", method = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT })
+	@RequestMapping(path = "/theme/topic/post/new", method = { RequestMethod.GET, RequestMethod.POST,
+			RequestMethod.PUT })
 	@PreAuthorize(value = "hasAnyAuthority('STUDENT', 'LECTURER')")
 	public ResponseEntity<ApiResponse> apiNewPost(@RequestBody Post m) {
 		AccountModel accountModel = getAccount();

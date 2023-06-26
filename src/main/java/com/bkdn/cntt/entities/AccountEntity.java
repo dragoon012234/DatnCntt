@@ -48,12 +48,14 @@ public class AccountEntity {
 	@Column(nullable = true)
 	public String avatar;
 
+	@Column(nullable = false, columnDefinition = "varchar(255) default ``")
+	public String description;
+
 	public AccountEntity() {
 	}
 
 	public AccountEntity(Integer id, String username, String password, String name, String email, Boolean verify,
-			Boolean blocked, Role role, ArrayList<Integer> watched, String avatar) {
-		super();
+			Boolean blocked, Role role, ArrayList<Integer> watched, String avatar, String description) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -64,11 +66,12 @@ public class AccountEntity {
 		this.role = role;
 		this.watched = watched;
 		this.avatar = avatar;
+		this.description = description;
 	}
 
 	public AccountEntity(Account account) {
 		this(null, account.username, account.password, account.name, account.email, false, false, account.role,
-				account.watched, account.avatar);
+				account.watched, account.avatar, account.description);
 	}
 
 	public void update(Account model) {
@@ -79,6 +82,7 @@ public class AccountEntity {
 			this.watched = model.watched;
 		}
 		this.avatar = model.avatar;
+		this.description = model.description;
 	}
 
 }

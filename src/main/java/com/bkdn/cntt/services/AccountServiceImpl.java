@@ -125,6 +125,7 @@ public class AccountServiceImpl implements AccountService {
 		var e = op.get();
 		e.update(m);
 		e = accRepo.save(e);
+		m.configure(e);
 		return m;
 	}
 

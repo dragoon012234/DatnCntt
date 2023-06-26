@@ -18,12 +18,13 @@ public class Account {
 	public String token;
 	public ArrayList<Integer> watched;
 	public String avatar;
+	public String description;
 
 	public Account() {
 	}
 
 	public Account(String username, String password, String name, String email, Role role, String token,
-			ArrayList<Integer> watched, String avatar) {
+			ArrayList<Integer> watched, String avatar, String description) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -32,6 +33,7 @@ public class Account {
 		this.token = token;
 		this.watched = watched;
 		this.avatar = avatar;
+		this.description = description;
 	}
 
 	public Account(AccountModel accountModel) {
@@ -51,6 +53,7 @@ public class Account {
 		this.token = "";
 		this.watched = e.watched;
 		this.avatar = e.avatar;
+		this.description = e.description;
 	}
 
 }
