@@ -48,7 +48,7 @@ public class AccountEntity {
 	@Column(nullable = true)
 	public String avatar;
 
-	@Column(nullable = false, columnDefinition = "varchar(255) default ``")
+	@Column(nullable = false, columnDefinition = "varchar(255) default ''")
 	public String description;
 
 	public AccountEntity() {

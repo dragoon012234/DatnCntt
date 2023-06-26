@@ -48,8 +48,11 @@ public class AccountServiceImpl implements AccountService {
 			try {
 				var username = String.format(m.username, j);
 				if (accRepo.findByUsername(username) != null) {
-					rs.add(new ApiResponse(
-							new ErrorResponse(ServerErrorCode.Signup.UsernameExists, "Username already exists!")));
+					var response = new ApiResponse(
+							new ErrorResponse(ServerErrorCode.Signup.UsernameExists, "Username already exists!"));
+					response.value = new Account(username, String.format(m.password, j), username,
+							String.format(m.email, j), m.role, "", watched, null, null);
+					rs.add(response);
 				} else {
 					AccountEntity e = new AccountEntity();
 					e.username = username;
@@ -61,10 +64,16 @@ public class AccountServiceImpl implements AccountService {
 					e.verify = true;
 					e = accRepo.save(e);
 
-					rs.add(new ApiResponse(true, e));
+					var resValue = new Account(e);
+					resValue.password = String.format(m.password, j);
+					var response = new ApiResponse(true, resValue);
+					rs.add(response);
 				}
 			} catch (Exception e) {
-				rs.add(new ApiResponse(new ErrorResponse(-1, e.getMessage())));
+				var response = new ApiResponse(new ErrorResponse(-1, e.getMessage()));
+				response.value = new Account(String.format(m.username, j), String.format(m.password, j),
+						String.format(m.username, j), String.format(m.email, j), m.role, "", watched, null, null);
+				rs.add(response);
 			}
 		}
 
