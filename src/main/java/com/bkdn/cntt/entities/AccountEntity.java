@@ -21,41 +21,45 @@ public class AccountEntity {
 	@Column
 	public Integer id;
 
-	@Column(nullable = false, length = 63)
+	@Column
 	public String username;
 
-	@Column(nullable = false)
+	@Column
 	public String password;
 
-	@Column(nullable = true, length = 127)
+	@Column
 	public String name;
 
-	@Column(nullable = true, length = 127)
+	@Column
 	public String email;
 
-	@Column(nullable = false)
+	@Column
 	public Boolean verify;
 
-	@Column(nullable = false)
+	@Column
 	public Boolean blocked;
 
-	@Column(nullable = false)
+	@Column
 	public Role role;
 
-	@Column(nullable = true)
+	@Column
 	public ArrayList<Integer> watched;
 
-	@Column(nullable = true)
+	@Column
 	public String avatar;
 
-	@Column(nullable = false, columnDefinition = "varchar(255) default ''")
+	@Column
 	public String description;
+
+	@Column
+	public Boolean watcher;
 
 	public AccountEntity() {
 	}
 
 	public AccountEntity(Integer id, String username, String password, String name, String email, Boolean verify,
-			Boolean blocked, Role role, ArrayList<Integer> watched, String avatar, String description) {
+			Boolean blocked, Role role, ArrayList<Integer> watched, String avatar, String description,
+			Boolean watcher) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -67,11 +71,12 @@ public class AccountEntity {
 		this.watched = watched;
 		this.avatar = avatar;
 		this.description = description;
+		this.watcher = watcher;
 	}
 
 	public AccountEntity(Account account) {
-		this(null, account.username, account.password, account.name, account.email, false, false, account.role,
-				account.watched, account.avatar, account.description);
+		this(null, account.username, account.password, account.name, account.email, true, false, account.role,
+				account.watched, account.avatar, account.description, account.watcher);
 	}
 
 	public void update(Account model) {
@@ -83,6 +88,7 @@ public class AccountEntity {
 		}
 		this.avatar = model.avatar;
 		this.description = model.description;
+		this.watcher = model.watcher;
 	}
 
 }

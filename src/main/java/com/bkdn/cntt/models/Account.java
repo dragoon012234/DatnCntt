@@ -19,12 +19,13 @@ public class Account {
 	public ArrayList<Integer> watched;
 	public String avatar;
 	public String description;
+	public Boolean watcher;
 
 	public Account() {
 	}
 
 	public Account(String username, String password, String name, String email, Role role, String token,
-			ArrayList<Integer> watched, String avatar, String description) {
+			ArrayList<Integer> watched, String avatar, String description, Boolean watcher) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -34,6 +35,7 @@ public class Account {
 		this.watched = watched;
 		this.avatar = avatar;
 		this.description = description;
+		this.watcher = watcher;
 	}
 
 	public Account(AccountModel accountModel) {
@@ -54,6 +56,7 @@ public class Account {
 		this.watched = e.watched;
 		this.avatar = e.avatar;
 		this.description = e.description;
+		this.watcher = e.watcher;
 	}
 
 }

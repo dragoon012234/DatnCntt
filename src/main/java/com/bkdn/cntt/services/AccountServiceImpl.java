@@ -51,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
 					var response = new ApiResponse(
 							new ErrorResponse(ServerErrorCode.Signup.UsernameExists, "Username already exists!"));
 					response.value = new Account(username, String.format(m.password, j), username,
-							String.format(m.email, j), m.role, "", watched, null, null);
+							String.format(m.email, j), m.role, "", watched, null, null, false);
 					rs.add(response);
 				} else {
 					AccountEntity e = new AccountEntity();
@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
 			} catch (Exception e) {
 				var response = new ApiResponse(new ErrorResponse(-1, e.getMessage()));
 				response.value = new Account(String.format(m.username, j), String.format(m.password, j),
-						String.format(m.username, j), String.format(m.email, j), m.role, "", watched, null, null);
+						String.format(m.username, j), String.format(m.email, j), m.role, "", watched, null, null, false);
 				rs.add(response);
 			}
 		}

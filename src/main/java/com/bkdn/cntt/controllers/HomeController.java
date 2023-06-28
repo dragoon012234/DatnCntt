@@ -1,23 +1,19 @@
 package com.bkdn.cntt.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bkdn.cntt.configs.models.AccountModel;
+import com.bkdn.cntt.enums.NotificationType;
 import com.bkdn.cntt.enums.PostType;
 import com.bkdn.cntt.enums.Role;
-import com.bkdn.cntt.models.Account;
 import com.bkdn.cntt.models.general.ApiResponse;
 
 @RestController
@@ -57,15 +53,25 @@ public class HomeController {
 		}
 	}
 
-//	@GetMapping(path = "/api/allposttypes")
-//	public ResponseEntity<ApiResponse> getAllPostTypes() {
-//		try {
-//			PostType[] posttypes = PostType.class.getEnumConstants();
-//			return ResponseEntity.ok(new ApiResponse(true, posttypes));
-//		} catch (Exception e) {
-//			return ResponseEntity.internalServerError().body(new ApiResponse(false, e.getMessage()));
-//		}
-//	}
+	@GetMapping(path = "/allposttypes")
+	public ResponseEntity<ApiResponse> getAllPostTypes() {
+		try {
+			PostType[] posttypes = PostType.class.getEnumConstants();
+			return ResponseEntity.ok(new ApiResponse(true, posttypes));
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(new ApiResponse(false, e.getMessage()));
+		}
+	}
+
+	@GetMapping(path = "/allnotitypes")
+	public ResponseEntity<ApiResponse> getAllNotiTypes() {
+		try {
+			NotificationType[] posttypes = NotificationType.class.getEnumConstants();
+			return ResponseEntity.ok(new ApiResponse(true, posttypes));
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(new ApiResponse(false, e.getMessage()));
+		}
+	}
 
 	@GetMapping(path = "/hello")
 	public ResponseEntity<ApiResponse> getHello() {

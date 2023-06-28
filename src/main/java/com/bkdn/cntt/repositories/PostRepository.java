@@ -11,7 +11,7 @@ public interface PostRepository extends CrudRepository<PostEntity, Integer> {
 	ArrayList<PostEntity> findAll();
 
 	ArrayList<PostEntity> findAllByTopic(Integer topic);
-	
+
 	ArrayList<PostEntity> deleteAllByUser(Integer user);
 
 }

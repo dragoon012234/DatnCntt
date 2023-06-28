@@ -6,7 +6,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,17 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bkdn.cntt.configs.models.AccountModel;
-import com.bkdn.cntt.entities.AccountEntity;
-import com.bkdn.cntt.enums.PostType;
 import com.bkdn.cntt.enums.Role;
-import com.bkdn.cntt.models.Account;
+import com.bkdn.cntt.models.InterestedTopic;
+import com.bkdn.cntt.models.LikedPost;
 import com.bkdn.cntt.models.Post;
 import com.bkdn.cntt.models.Theme;
 import com.bkdn.cntt.models.Topic;
 import com.bkdn.cntt.models.create.CreatePost;
 import com.bkdn.cntt.models.general.ApiResponse;
-import com.bkdn.cntt.models.general.ErrorResponse;
-//import com.bkdn.cntt.models.RegisterData;
 import com.bkdn.cntt.services.PostService;
 
 @RestController
@@ -196,6 +192,40 @@ public class PostController {
 		}
 	}
 
+	@RequestMapping(path = "/theme/topic/interested", method = { RequestMethod.POST })
+	@PreAuthorize(value = "hasAnyAuthority('STUDENT', 'LECTURER')")
+	public ResponseEntity<ApiResponse> apiInterested(@RequestBody InterestedTopic m) {
+		AccountModel accountModel = getAccount();
+		m.user = accountModel.getAccount().id;
+		return interested(m);
+	}
+
+	public ResponseEntity<ApiResponse> interested(InterestedTopic m) {
+		try {
+			var rs = postService.subscriber(m.user, m.topic, m.interested);
+			return ResponseEntity.ok(new ApiResponse(true, rs));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new ApiResponse(false, e.getMessage()));
+		}
+	}
+
+	@RequestMapping(path = "/theme/topic/post/liked", method = { RequestMethod.POST })
+	@PreAuthorize(value = "hasAnyAuthority('STUDENT', 'LECTURER')")
+	public ResponseEntity<ApiResponse> apiLiked(@RequestBody LikedPost m) {
+		AccountModel accountModel = getAccount();
+		m.user = accountModel.getAccount().id;
+		return liked(m);
+	}
+
+	public ResponseEntity<ApiResponse> liked(LikedPost m) {
+		try {
+			var rs = postService.like(m.user, m.post, m.liked);
+			return ResponseEntity.ok(new ApiResponse(true, rs));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new ApiResponse(false, e.getMessage()));
+		}
+	}
+
 //	@RequestMapping(path = "/get", method = { RequestMethod.GET, RequestMethod.POST })
 //	public ResponseEntity<ApiResponse> apiGetAllPost(@RequestParam @Nullable String id,
 //			@RequestBody @Nullable Post post) {
@@ -211,25 +241,6 @@ public class PostController {
 //				return ResponseEntity.ok(new ApiResponse(true, postService.get(id)));
 //			else
 //				return ResponseEntity.ok(new ApiResponse(true, postService.getAll()));
-//		} catch (Exception e) {
-//			return ResponseEntity.badRequest().body(new ApiResponse(false, e.getMessage()));
-//		}
-//	}
-
-//	@RequestMapping(path = "/close", method = { RequestMethod.GET, RequestMethod.POST })
-//	@PreAuthorize(value = "hasAnyAuthority('SINGLEUSER', 'ORGANIZATION')")
-//	public ResponseEntity<ApiResponse> apiClosePost(@RequestParam @Nullable String id,
-//			@RequestBody @Nullable Post post) {
-//		if (post != null) {
-//			return closePost(post.getId());
-//		}
-//		return closePost(id);
-//	}
-//
-//	private ResponseEntity<ApiResponse> closePost(String id) {
-//		try {
-//			AccountEntity account = getAccount().getAccount();
-//			return ResponseEntity.ok(new ApiResponse(true, postService.close(id, account)));
 //		} catch (Exception e) {
 //			return ResponseEntity.badRequest().body(new ApiResponse(false, e.getMessage()));
 //		}

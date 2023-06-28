@@ -15,29 +15,43 @@ public class ThemeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	public Integer id;
 
-	@Column(nullable = false)
+	@Column
 	public String theme;
 
-	@Column(nullable = true)
+	@Column
 	public String description;
 
-	@Column(nullable = true)
+	@Column
 	public Integer parent;
+
+	@Column
+	public Integer user;
+
+	@Column
+	public Long createTime;
+
+	@Column
+	public Long updateTime;
 
 	public ThemeEntity() {
 	}
 
-	public ThemeEntity(Integer id, String theme, String description, Integer parent) {
+	public ThemeEntity(Integer id, String theme, String description, Integer parent, Integer user, Long createTime,
+			Long updateTime) {
 		this.id = id;
 		this.theme = theme;
 		this.description = description;
 		this.parent = parent;
+		this.user = user;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
 	}
 
 	public ThemeEntity(Theme model) {
-		this(model.id, model.theme, model.description, model.parent);
+		this(model.id, model.theme, model.description, model.parent, model.user, model.createTime, model.updateTime);
 	}
 
 }

@@ -1,30 +1,34 @@
 package com.bkdn.cntt.models;
 
-import java.util.ArrayList;
-
 import com.bkdn.cntt.entities.InterestedTopicEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InterestedTopic {
 
+	public Integer id;
+	public Integer topic;
 	public Integer user;
-	public ArrayList<Integer> topics;
+	public Boolean interested;
+	public Long createTime;
 
 	public InterestedTopic() {
 	}
-	
-	public InterestedTopic(Integer user, ArrayList<Integer> topics) {
+
+	public InterestedTopic(Integer id, Integer topic, Integer user, Boolean interested, Long createTime) {
+		this.id = id;
+		this.topic = topic;
 		this.user = user;
-		this.topics = topics;
+		this.interested = interested;
+		this.createTime = createTime;
 	}
-	
-	public InterestedTopic(ArrayList<InterestedTopicEntity> es) {
-		this.user = ((InterestedTopicEntity)es.toArray()[0]).user;
-		this.topics = new ArrayList<Integer>(es.size());
-		for (InterestedTopicEntity e : es) {
-			this.topics.add(e.topic);
-		}
+
+	public InterestedTopic(InterestedTopicEntity o) {
+		this.id = o.id;
+		this.topic = o.topic;
+		this.user = o.user;
+		this.interested = o.interested;
+		this.createTime = o.createTime;
 	}
 
 }

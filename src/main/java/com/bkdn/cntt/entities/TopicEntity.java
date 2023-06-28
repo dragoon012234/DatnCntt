@@ -15,37 +15,43 @@ public class TopicEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	public Integer id;
 
-	@Column(nullable = false)
+	@Column
 	public String topic;
 
-	@Column(nullable = false)
+	@Column
 	public Integer theme;
 
-	@Column(nullable = false)
+	@Column
 	public Integer user;
 
-	@Column(nullable = false)
+	@Column
 	public Long createTime;
 
-	@Column(nullable = false, columnDefinition = "boolean default false")
+	@Column
+	public Long updateTime;
+
+	@Column
 	public Boolean closed;
 
 	public TopicEntity() {
 	}
 
-	public TopicEntity(Integer id, String topic, Integer theme, Integer user, Long createTime, Boolean closed) {
+	public TopicEntity(Integer id, String topic, Integer theme, Integer user, Long createTime, Long updateTime,
+			Boolean closed) {
 		this.id = id;
 		this.topic = topic;
 		this.theme = theme;
 		this.user = user;
 		this.createTime = createTime;
+		this.updateTime = updateTime;
 		this.closed = closed;
 	}
 
 	public TopicEntity(Topic model) {
-		this(model.id, model.topic, model.theme, model.user, model.createTime, model.closed);
+		this(model.id, model.topic, model.theme, model.user, model.createTime, model.updateTime, model.closed);
 	}
 
 }

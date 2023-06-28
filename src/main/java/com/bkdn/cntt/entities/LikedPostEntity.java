@@ -8,8 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "interested_topic")
-public class InterestedTopicEntity {
+@Table(name = "liked_post")
+public class LikedPostEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,25 +17,25 @@ public class InterestedTopicEntity {
 	public Integer id;
 
 	@Column
-	public Integer topic;
+	public Integer post;
 
 	@Column
 	public Integer user;
 
 	@Column
-	public Boolean interested;
+	public Boolean liked;
 
 	@Column
 	public Long createTime;
 
-	public InterestedTopicEntity() {
+	public LikedPostEntity() {
 	}
 
-	public InterestedTopicEntity(Integer id, Integer topic, Integer user, Boolean interested, Long createTime) {
+	public LikedPostEntity(Integer id, Integer post, Integer user, Boolean liked, Long createTime) {
 		this.id = id;
-		this.topic = topic;
+		this.post = post;
 		this.user = user;
-		this.interested = interested;
+		this.liked = liked;
 		this.createTime = createTime;
 	}
 

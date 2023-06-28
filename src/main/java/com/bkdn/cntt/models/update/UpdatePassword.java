@@ -1,5 +1,8 @@
 package com.bkdn.cntt.models.update;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdatePassword {
 
 	public String oldPassword;

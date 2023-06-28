@@ -12,6 +12,8 @@ public interface InterestedTopicRepository extends CrudRepository<InterestedTopi
 
 	ArrayList<InterestedTopicEntity> findByTopic(Integer topic);
 
+	ArrayList<InterestedTopicEntity> findByTopicAndInterested(Integer topic, Boolean interested);
+
 	InterestedTopicEntity findByUserAndTopic(Integer user, Integer topic);
 
 	ArrayList<InterestedTopicEntity> deleteAllByUser(Integer user);

@@ -15,45 +15,43 @@ public class PostEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	public Integer id;
 
-	@Column(nullable = false)
+	@Column
 	public Integer topic;
 
-	@Column(nullable = false)
+	@Column
 	public String content;
 
-	@Column(nullable = false)
+	@Column
 	public Integer user;
 
-	@Column(nullable = true)
+	@Column
 	public Integer replyOn;
 
-	@Column(nullable = false)
+	@Column
 	public Long createTime;
+
+	@Column
+	public Long updateTime;
 
 	public PostEntity() {
 	}
 
-	public PostEntity(Integer id, Integer topic, String content, Integer user, Integer replyOn, Long createTime) {
+	public PostEntity(Integer id, Integer topic, String content, Integer user, Integer replyOn, Long createTime,
+			Long updateTime) {
 		this.id = id;
 		this.topic = topic;
 		this.content = content;
 		this.user = user;
 		this.replyOn = replyOn;
 		this.createTime = createTime;
+		this.updateTime = updateTime;
 	}
 
 	public PostEntity(Post model) {
-		this(model.id, model.topic, model.content, model.user, model.replyOn, model.createTime);
-	}
-
-	@Override
-	public String toString() {
-		return "PostEntity [" + (id != null ? "id=" + id + ", " : "") + (topic != null ? "topic=" + topic + ", " : "")
-				+ (content != null ? "content=" + content + ", " : "") + (user != null ? "user=" + user + ", " : "")
-				+ (replyOn != null ? "replyOn=" + replyOn + ", " : "")
-				+ (createTime != null ? "createTime=" + createTime : "") + "]";
+		this(model.id, model.topic, model.content, model.user, model.replyOn, model.createTime, model.updateTime);
 	}
 
 }
