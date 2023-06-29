@@ -142,20 +142,26 @@ public class PostServiceImpl implements PostService {
 		e = postRepo.save(e);
 		var op = topicRepo.findById(e.topic);
 		if (op.isPresent()) {
+			var notis = new ArrayList<NotificationEntity>();
 			var e2 = op.get();
-			var noti = new NotificationEntity(null, e2.theme, e2.id, e.id, e.user, e2.user, NotificationType.TopicReply,
-					System.currentTimeMillis(), false);
-			notiRepo.save(noti);
+			notis.add(new NotificationEntity(null, e2.theme, e2.id, e.id, e.user, e2.user, NotificationType.TopicReply,
+					System.currentTimeMillis(), false));
+
+			var is = getAllSubscriber(e2.id);
+			for (InterestedTopic i : is) {
+				notis.add(new NotificationEntity(null, e2.theme, e2.id, e.id, e.user, i.user,
+						NotificationType.TopicReply, System.currentTimeMillis(), false));
+			}
 
 			if (e.replyOn != null) {
 				var opReply = postRepo.findById(e.replyOn);
 				if (opReply.isPresent()) {
 					var eReply = opReply.get();
-					var noti2 = new NotificationEntity(null, e2.theme, e2.id, e.id, e.user, eReply.user,
-							NotificationType.PostReply, System.currentTimeMillis(), false);
-					notiRepo.save(noti2);
+					notis.add(new NotificationEntity(null, e2.theme, e2.id, e.id, e.user, eReply.user,
+							NotificationType.PostReply, System.currentTimeMillis(), false));
 				}
 			}
+			notiRepo.saveAll(notis);
 		}
 		return new Post(e);
 	}

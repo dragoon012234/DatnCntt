@@ -193,7 +193,7 @@ public class PostController {
 	}
 
 	@RequestMapping(path = "/theme/topic/interested", method = { RequestMethod.POST })
-	@PreAuthorize(value = "hasAnyAuthority('STUDENT', 'LECTURER')")
+	@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'STUDENT', 'LECTURER')")
 	public ResponseEntity<ApiResponse> apiInterested(@RequestBody InterestedTopic m) {
 		AccountModel accountModel = getAccount();
 		m.user = accountModel.getAccount().id;
@@ -210,7 +210,7 @@ public class PostController {
 	}
 
 	@RequestMapping(path = "/theme/topic/post/liked", method = { RequestMethod.POST })
-	@PreAuthorize(value = "hasAnyAuthority('STUDENT', 'LECTURER')")
+	@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'STUDENT', 'LECTURER')")
 	public ResponseEntity<ApiResponse> apiLiked(@RequestBody LikedPost m) {
 		AccountModel accountModel = getAccount();
 		m.user = accountModel.getAccount().id;
