@@ -230,6 +230,16 @@ public class AccountController {
 		}
 	}
 
+	@GetMapping(path = "/profile/id")
+	public ResponseEntity<ApiResponse> getId() {
+		try {
+			AccountEntity accountEntity = getAccount().getAccount();
+			return ResponseEntity.ok(new ApiResponse(true, accountEntity));
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(new ApiResponse(false, e.getMessage()));
+		}
+	}
+
 	private AccountModel getAccount() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		try {
