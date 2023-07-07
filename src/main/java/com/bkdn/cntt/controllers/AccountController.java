@@ -230,7 +230,7 @@ public class AccountController {
 		}
 	}
 
-	@GetMapping(path = "/profile/id")
+	@GetMapping(path = "/profile/myid")
 	public ResponseEntity<ApiResponse> getId() {
 		try {
 			AccountEntity accountEntity = getAccount().getAccount();
